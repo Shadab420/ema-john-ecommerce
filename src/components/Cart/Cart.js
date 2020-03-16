@@ -2,10 +2,11 @@ import React from 'react';
 import logo from '../../images/logo.png';
 import './Cart.css';
 
+
 const Cart = (props) => {
 
     const { cart } = props;
-    const totalPrice = cart.reduce((total, product) => total + product.price, 0);
+    const totalPrice = cart.reduce((total, product) => total + (product.price*product.quantity), 0);
 
     let shipping = 0;
 
@@ -37,6 +38,10 @@ const Cart = (props) => {
             <p><small> tax ${tax} </small></p>            
             <p>items (without shipping) ${totalPrice}</p>
             <p>items (with shipping) ${ grandTotal }</p>
+            <br/>
+            {
+                props.children
+            }
         </div>
     );
 };
