@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../../images/logo.png';
 import './Cart.css';
-
+import { useAuth } from '../Login/useAuth';
 
 const Cart = (props) => {
 
@@ -28,7 +28,8 @@ const Cart = (props) => {
     let tax = formatNumber(totalPrice / 10);
     const grandTotal = formatNumber(totalPrice + shipping + tax);
 
-    
+    const auth = useAuth();
+    console.log(auth.user);
 
     return (
         <div className="cart">
@@ -40,7 +41,7 @@ const Cart = (props) => {
             <p>items (with shipping) ${ grandTotal }</p>
             <br/>
             {
-                props.children
+                props.children 
             }
         </div>
     );

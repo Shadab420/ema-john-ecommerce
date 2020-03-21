@@ -1,0 +1,12 @@
+.ship-form{
+    margin-left: 100px;
+}
+
+.ship-form input{
+    display: block;
+    margin-top: 20px;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 300px;
+}

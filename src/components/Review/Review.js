@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import { getDatabaseCart, removeFromDatabaseCart, processOrder } from '../../utilities/databaseManager';
 import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
 import happyImage from '../../images/giphy.gif';
+import { useAuth } from '../Login/useAuth';
 
 const Review = () => {
 
     const [cart, setCart] = useState([]);
     const [orderPlaced, setOrderPlaced] = useState(false);
+
+    //get auth hook
+    const auth = useAuth();
 
     const RemoveProduct = (productKey) => {
         
@@ -52,10 +57,19 @@ const Review = () => {
                 {
                     orderPlaced && thankYou
                 }
+                {
+                    !cart.length && <h1>Add something to cart first! <Link to="/shop">go to shop</Link></h1>
+                }
             </div>
             <div className="cart-container">
                 <Cart cart={cart}>
-                    <button className="main-btn" onClick={handlePlaceOrder}>Place Order</button>
+                    <Link to="/shipment">
+                        {
+                            auth.user?
+                            <button className="main-btn">Proceed Checkout</button>
+                            : <button className="main-btn">Login to proceed</button>}
+
+                    </Link>
                 </Cart>
             </div>
         </div>
