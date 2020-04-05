@@ -29,7 +29,7 @@ const Cart = (props) => {
     const grandTotal = formatNumber(totalPrice + shipping + tax);
 
     const auth = useAuth();
-    console.log(auth.user);
+    // console.log(auth.user);
 
     return (
         <div className="cart">

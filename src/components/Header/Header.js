@@ -26,9 +26,8 @@ const Header = () => {
 
     return (
         <div className="header">
-            <h1>Count: {count} Previous: {previous}</h1>
-            <button onClick={()=>setCount(count+1)}>+</button>
-            <button onClick={()=>setCount(count-1)}>-</button>
+            <img src={logo} alt="" />
+        
             <nav>
                 <Link to="/shop">Shop</Link>
                 <Link to="/review">Order Review</Link>

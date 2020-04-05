@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import fakeData from '../../fakeData';
 
 const ProductDetail = () => {
     const { productKey } = useParams();
+    const [product, setProduct] = useState(null);
     
-    const product = fakeData.find(pd => pd.key === productKey);
-        
+    useEffect(() => {
+        fetch(`http://ema-john-back.herokuapp.com/product/${productKey}`)
+            .then(res => res.json())
+            .then(data => setProduct(data));
+    }, []);
 
     return (
         <div>
-            { `this is product ${product.name} detail`}
+            <h1>Product details</h1>
+            { 
+                product && <h3> this is product {product.name} detail </h3>
+            }
         </div>
     );
 };

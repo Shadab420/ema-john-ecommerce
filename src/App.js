@@ -39,9 +39,6 @@ function App() {
             <Route path="/inventory">
               <Inventory></Inventory>
             </Route>
-            <Route path="/inventory">
-              <Inventory></Inventory>
-            </Route>
             <Route path="/product/:productKey">
               <ProductDetail></ProductDetail>
             </Route>

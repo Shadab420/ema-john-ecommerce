@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { getDatabaseCart, removeFromDatabaseCart, processOrder } from '../../utilities/databaseManager';
-import fakeData from '../../fakeData';
+import { getDatabaseCart, removeFromDatabaseCart} from '../../utilities/databaseManager';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
-import happyImage from '../../images/giphy.gif';
 import { useAuth } from '../Login/useAuth';
 
 const Review = () => {
 
     const [cart, setCart] = useState([]);
-    const [orderPlaced, setOrderPlaced] = useState(false);
 
     //get auth hook
     const auth = useAuth();
@@ -23,27 +20,32 @@ const Review = () => {
 
     }
 
-    const handlePlaceOrder = () => {
-        setCart([]);
-        setOrderPlaced(true);
-        processOrder();
-    }
 
     useEffect(()=>{
         //cart
         const savedCart = getDatabaseCart();
         const productKeys = Object.keys(savedCart);
-        
-        const cartProducts = productKeys.map(key => {
-            const product = fakeData.find(pd => pd.key === key);
-            product.quantity = savedCart[key];
-            return product;
+
+        fetch('http://ema-john-back.herokuapp.com/getProductsByKey', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(productKeys)
         })
-        setCart(cartProducts);
+        .then(res => res.json())
+        .then(data =>{
+            const cartProducts = productKeys.map(key => {
+                const product = data.find(pd => pd.key === key);
+                product.quantity = savedCart[key];
+                return product;
+            })
+            setCart(cartProducts);
+        })
+        
+        
     }, []);
 
-
-    const thankYou = <img src={happyImage} alt="Order placed Img" /> 
 
     return (
         <div className="shop-container">
@@ -54,9 +56,6 @@ const Review = () => {
                     cart.map((pd, index) => <ReviewItem product={pd} key={index} removeProduct={RemoveProduct} />)
                 }
 
-                {
-                    orderPlaced && thankYou
-                }
                 {
                     !cart.length && <h1>Add something to cart first! <Link to="/shop">go to shop</Link></h1>
                 }
